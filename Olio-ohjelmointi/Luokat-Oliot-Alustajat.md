@@ -1,55 +1,106 @@
-# Luokka, olio, alustaja
+# Luokat, Oliot ja Alustajat
 
-Tässä moduulissa opit olio-ohjelmoinnin lähtökohdat. Opit kirjoittamaan luokkia, jotka määrittävät yhteiset ominaisuudet
-ja operaatiot luokan ilmentymille eli olioille. Opit olioiden luonnin, alustamisen ja käytön periaatteet.
+Tämä moduuli on tarkoitettu opettamaan olioiden käyttöä erilaisissa mahdollisissa oikean elämän tilanteissa, ja perehdyttämään sinut niiden käytössä vaadittuihin Luokkiin sekä Alustajiin.
 
-## Luokat ja oliot
+## Luokat ja oliot (perusteet)
 
-Olio-ohjelmoinnissa luokalla tarkoitetaan yleiskäsitettä, joka määrittää yleiset ja yhteiset piirteet, joita
-sen jäsenillä on.
+Olio-ohjelmoinnissa käytetty Luokka, on koko järjestelmän alkupiste. Sillä tarkoitetaan yleiskäsitettä, joka määrittää yleiset ja yhteiset piirteet, joita sen luomilla olioilla tulee olemaan.
 
-Esimerkiksi **koira** on tällainen yleiskäsite. Jokaisella koiralla on joukko ominaisuuksia
-kuten nimi ja syntymävuosi. Lisäksi koiralla on toimintoja (eli Python-termein metodeja) kuten haukkuminen.
+Luokan toiminnan voi toisella tavalla ajatella eräänlaisena tehtaana. Tällä tehtaalla on alustaja, jolla on vaatimukset mitä sen jokaisella tuotoksella(oliolla) tulee olemaan.
 
-Voimme nyt kirjoittaa pienimmän mahdollisen Koira-luokan seuraavasti:
-```python
-class Koira:
-    pass
-```
+Esimerkkeinä käytämme yleisiä pelitermejä ja ominaisuuksia jotta ymmärtäminen saattaa olla helpompaa.
 
-Edellä `pass`-lause on tyhjä lause, joka ei tee mitään. Se tarvitaan paikkamerkiksi, sillä luokan määrityksen rungossa on oltava
-ainakin yksi lause.
+Tässä esimerkissä meidän tehtaamme(Luokka) on `Pelaaja`, jonka alustajan vaatimuksina ovat että jokaiselle sen luomalle pelaajalle(olio) täytyy antaa `hp` arvo, `armor` arvo, `money` arvo sekä `team` arvo.
 
-Tämä luokan määritys vain kertoo, että on olemassa Koira-luokka. Se ei toistaiseksi ota kantaa koirien ominaisuuksiin
-eikä niiden metodeihin.
-
-Voimme käyttää Koira-luokkaa siten, että luomme tuosta luokasta olion. Olio tarkoittaa luokan ajonaikaista ilmentymää
-eli realisaatiota. Luomme näin Koira-olion, joka on nimeltään Rekku ja jonka syntymävuosi on 2022: 
-
-
+Tämä näkyy koodissa seuraavasti.
 
 ```python
-class Koira:
-    pass
-   
-koira = Koira()
-koira.nimi = "Rekku"
-koira.syntymävuosi = 2022
+class Pelaaja: # Tämä on ohjelman Luokka/Tehdas
+    def __init__(self, hp, armor, money, team) # Tämä on luokan alustaja (aina "__init__") 
 
-print (f"{koira.nimi:s} on syntynyt vuonna {koira.syntymävuosi:d}." )
+        # Alla luodaan pelaaja(olio) tässä tapauksessa pelaaja1.
+        # Voit kuvitella toiminnan siten, että pelaaja1 muuttuja kävelee tehtaaseen,
+        # ja hyppää jokaisen alla olevan "self" tilalle.
+        # Jonka jälkeen pelaaja1.hp on alustajaan syötetty hp arvo (100), pelaaja1.armor on (50) jne.
+        self.hp = hp
+        self.armor = armor
+        self.team = team
+        self.money = money
+
+pelaaja1 = Pelaaja(100, 50, 5000, "Blue")
 ```
 
-Pääohjelman ensimmäinen lause luo Koira-olion, johon viitataan muuttujalla `koira`. Luodulle koiralle annetaan
-nimeksi Rekku ja syntymävuodeksi 2022. Nämä ovat luodun olion ominaisuuksia, ja ne ovat oliokohtaisia. Voisimme siis luoda
-monta koiraa, joista jokaisella olisi oma yksilöllinen nimensä ja syntymävuotensa. Jollekin koirista voisimme
-lisäksi määrittää rodun ja jollekin lempinimen. Olioiden ominaisuudet voivat siis poiketa toisistaan.
+Yllä olevassa koodissa luodaan tasan 1 olio nimeltä `pelaaja1`. Tämä saa arvoikseen `Pelaaja` luokkaan syötetyt arvot `hp: 100`, `armor: 50`, `money: 5000` ja `team: Blue`.
 
-Kuten esimerkistä näkyy, olion ominaisuuteen viitataan kirjoittamalla ensin olion nimi, sitten piste ja lopuksi
-ominaisuuden nimi. Esimerkki tällaisesta viittauksesta on `koira.nimi`.
+Jos koodiin lisättäisiin pelaaja2, `Pelaaja` luokan avulla se toimisi seuraavasti.
 
-Esimerkkiohjelman viimeinen lause tulostaa pääohjelman luoman koiraolion nimen ja syntymävuoden:
+```python
+
+pelaaja1 = Pelaaja(100, 50, 5000, "Blue")
+pelaaja2 = Pelaaja(100, 25, 6000, "Red")
+
+````
+Luokan ansiosta uusien pelaajien lisääminen on hyvin helppoa. Pitää vain kutsua `Pelaaja` luokkaa ja syöttää sen alustajaan sen vaatimat arvot. Lisäksi täytyy muistaa tallentaa olio muuttujaan, tässä tapauksessa uusi pelaaja(olio) olisi `pelaaja2`.
+**HUOM** 
+Alustajaan syötetyt arvot voivat olla samat tai eri oliolta oliolle. (voi olla useampi pelaaja jolla on **100 hp**, **50 armor**, joiden joukkue on **Blue** ja jolla on **5000€**)
+
+**MUTTA** 
+Jos käytät jo olemassa olevaa muuttujanimeä esim:
 ```monospace
-Rekku on syntynyt vuonna 2022.
+pelaaja1 = Pelaaja(100, 50, 5000, "Blue")
+pelaaja1 = Pelaaja(80, 20, 7000, "Red")
+```
+tämä korvaa pelaaja1 tiedot uusilla arvoilla. 
+
+
+## Olioiden käyttö
+Seuraavassa esimerkissä katsomme mitä luodulla oliolla pystymme tehdä.
+Helpoin esimerkki on pelaajan eri tietojen tulostus jonka voimme tehdä seuraavasti:
+```python
+class Pelaaja:
+    def __init__(self, hp, armor, money, team)
+        self.hp = hp
+        self.armor = armor
+        self.money = money
+        self.team = team
+
+pelaaja1 = Pelaaja(100, 50, 5000, "Blue") # Luodaan pelaaja1(olio)
+
+print (f"HP: {pelaaja1.hp}, Armor: {pelaaja1.armor}, Money: {pelaaja1.money}, Team: {pelaaja1.team}" )
+```
+Esimerkissä ensin luodaan `pelaaja1` olio, jonka jälkeen sen tiedot voidaan tulostaa käyttäen f-string:iä käyttäen muotoa `olion_nimi.haluttu_arvo`.
+
+Kyseinen ohjelma antaisi tuloksen:
+```monospace
+HP: 100, Armor: 50, Money: 5000, Team: Blue
+```
+
+Tätä pystyttäisiin käyttämään esimerkiksi tulostaulukoiden esittelyssä seuraavalla tavalla:
+```python
+class Pelaaja:
+    def __init__(self, name, score)
+        self.name = name
+        self.score = score
+
+username = input("Give a username: ")
+pelaaja1 = Pelaaja(username, 0)
+# Luodaan olio käyttäen käyttäjän syöttämää nimiarvoa
+# Aloituspisteet ovat 0
+
+print (f"Player: {pelaaja1.name}, Score: {pelaaja1.score}") # Tulostetaan pelaajan aloitustiedot
+
+pelaaja1.score = pelaaja1.score + 100 # Tämän jälkeen pelaaja ansaitsee 100 pistettä
+print(f"{pelaaja1.name} ansaitsi 100 pistettä!") # Annetaan käyttäjälle ilmoitus pisteiden saannista
+
+print (f"Player: {pelaaja1.name}, Score: {pelaaja1.score}") # Tulostetaan pelaajan tiedot uudelleen
+```
+Ohjelma alkaisi kysymällä pelaajan käyttäjänimeä (esimerkkinä `Pertti`) ja toimisi seuraavasti:
+```monospace
+Give a username: Pertti
+>>>
+Player: Pertti, Score: 0
+Pertti ansaitsi 100 pistettä!
+Player: Pertti, Score: 100
 ```
 
 Huomaa Python-kielen vakiintunut kirjoitustapa luokkien nimille: ne kirjoitetaan isoin alkukirjaimin. Jos luokan nimi koostuu
